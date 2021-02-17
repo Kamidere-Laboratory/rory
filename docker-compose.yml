@@ -1,0 +1,70 @@
+version: "3.8"
+x-common: &common
+  image: rory:local
+  volumes:
+    - build:/rory/dist/
+
+services: 
+  builder:
+    image: rory:local
+    volumes:
+      - .:/rory:delegated
+      - build:/rory/dist/
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.dev
+      cache_from:
+        - 'rory:local'
+        - 'rory:${BRANCH_NAME:-ignore}'
+    container_name: rory-builder
+    working_dir: /rory
+    command: [sh, -c, 'rm -rf ./dist/* && ./node_modules/.bin/concurrently "./node_modules/.bin/swc src -d dist -w" "./node_modules/.bin/tsc -w --pretty --skipLibCheck --noEmit"']
+
+  rory: 
+    <<: *common
+    working_dir: /rory/dist
+    command: [sh, -c, 'node-dev --inspect=0.0.0.0 -r source-map-support/register ./index.js']
+    hostname: rory
+    container_name: rory
+    env_file: 
+      - .env
+    # depends_on:
+    #   - redis
+    #   - mongo
+    networks:
+      - app
+
+  js:
+    image: rory:local
+    volumes:
+      - .:/rory:delegated
+    env_file:
+      - .env
+    networks:
+      - app
+
+
+  # redis:
+  #   container_name: redis
+  #   image: 'redis'
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - app
+
+  # mongo:
+  #   image: mongo:4.4.1-bionic
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: mongo
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #     MONGO_INITDB_DATABASE: rory
+  #   ports: 
+  #     - 27017:27017
+  #   networks:
+  #     - app
+
+networks:
+  app:
+
+volumes:
+  build:

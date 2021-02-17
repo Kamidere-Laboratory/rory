@@ -1,0 +1,12 @@
+FROM node:lts-alpine
+
+RUN apk add --no-cache bash curl git py-pip make g++ && \
+  curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | sh && \
+  npm install node-dev -g && npm cache clean --force
+
+COPY . /rory
+WORKDIR /rory
+RUN npm ci && npm cache clean --force && \
+  npm dedupe && \
+  rm -f .npmrc \
+  node-prune
