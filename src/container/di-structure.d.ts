@@ -1,4 +1,5 @@
 import type { Client } from 'eris';
+import type { BaseEventIo } from '../modules/discord/shared/base-event.io';
 export interface DiDiscordConfig {
   token: string;
   prefix: string;
@@ -11,7 +12,6 @@ export interface DiStructure {
   };
   env: string;
   discordConfig: DiDiscordConfig;
-  discord: {
-    client: Client;
-  };
+  discordIoEvents: BaseEventIo[];
+  discordClient: Client;
 }

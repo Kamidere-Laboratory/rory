@@ -3,8 +3,8 @@
     "parser": {
       "syntax": "typescript",
       "tsx": false,
-      "decorators": false,
-      "dynamicImport": false
+      "decorators": true,
+      "dynamicImport": true
     },
     "target": "es2020"
   },
