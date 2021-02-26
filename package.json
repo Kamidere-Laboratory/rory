@@ -4,9 +4,9 @@
   "description": "Rory - Modular discord bot core based on eris",
   "main": "compiled/index.js",
   "scripts": {
-    "build:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build builder",
-    "watch:bot:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up builder",
-    "start:bot:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up rory"
+    "build:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build --parallel builder",
+    "watch:bot:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose run --rm builder",
+    "start:bot:container": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose run --rm rory"
   },
   "repository": {
     "type": "git",
@@ -53,8 +53,12 @@
     "typescript": "^4.1.5"
   },
   "dependencies": {
+    "@kamidere/node-args": "^3.0.0",
     "@tshio/awilix-resolver": "^1.0.2",
+    "@tshio/command-bus": "^1.0.3",
+    "@tshio/logger": "^1.0.4",
     "awilix": "^4.3.1",
-    "eris": "^0.14.0"
+    "eris": "^0.14.0",
+    "yup": "^0.32.9"
   }
 }
