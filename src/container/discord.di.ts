@@ -14,8 +14,8 @@ export const registerDiscord = async (
   container.register({
     discordClient: asValue(discordClient),
     discordIoEvents: asArray<BaseEventIo>([
-      asClass(ReadyDiscordEventIO).scoped(),
-      asClass(MessageDiscordEventIO).scoped(),
+      asClass(ReadyDiscordEventIO).singleton().scoped(),
+      asClass(MessageDiscordEventIO).singleton().scoped(),
     ]),
   });
 
