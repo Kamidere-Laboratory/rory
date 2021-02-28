@@ -1,7 +1,7 @@
 import { DiStructure } from '../../../container/di-structure';
 import { BaseEventIo } from '../shared/base-event.io';
 
-type ReadyDiscordEventIODeps = Pick<DiStructure, 'discordClient'>;
+type ReadyDiscordEventIODeps = Pick<DiStructure, 'discordClient' | 'logger'>;
 export class ReadyDiscordEventIO implements BaseEventIo {
   constructor(private readonly deps: ReadyDiscordEventIODeps) {}
 
@@ -16,7 +16,7 @@ export class ReadyDiscordEventIO implements BaseEventIo {
   }
 
   async handler() {
-    const { discordClient } = this.deps;
-    console.log('Bot started! ', discordClient.user.username);
+    const { logger } = this.deps;
+    logger.info('Bot started!');
   }
 }
